@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUR DIARY 💘</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root {
+  --yellow: #FFD92E;
+  --pink: #FF6BA9;
+  --blue: #2E8BFF;
+  --green: #35D07F;
+  --red: #FF5D5D;
+  --cream: #FFF8E7;
+  --black: #111111;
+  --white: #FFFFFF;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--cream);
+  color: var(--black);
+  overflow-x:hidden;
+}
+
+/* Sticker shapes */
+.sticker {
+  position:absolute;
+  width:40px; height:40px;
+  border:3px solid var(--black);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem;
+  transform:rotate(-8deg);
+  box-shadow:3px 3px 0 var(--black);
+  z-index:5;
+}
+.sticker.yellow { background:var(--yellow); }
+.sticker.pink { background:var(--pink); }
+.sticker.blue { background:var(--blue); }
+.sticker.green { background:var(--green); }
+
+/* Navigation */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:var(--black);
+  color:var(--white);
+  padding:12px 24px;
+  display:flex; justify-content:space-between; align-items:center;
+  border-bottom:4px solid var(--pink);
+}
+.nav-brand {
+  font-family:'Archivo Black', sans-serif;
+  font-size:1.1rem;
+  color:var(--yellow);
+  text-decoration:none;
+  letter-spacing:0.5px;
+}
+.nav-links { display:flex; gap:8px; list-style:none; }
+.nav-links a {
+  color:var(--white); text-decoration:none;
+  font-size:0.78rem; font-weight:700;
+  padding:6px 12px;
+  border:2px solid transparent;
+  transition:all 0.2s;
+}
+.nav-links a:hover {
+  border-color:var(--yellow);
+  color:var(--yellow);
+}
+
+/* Hero cover */
+.cover {
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center;
+  padding:120px 24px 60px;
+  position:relative;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,109,169,0.3) 0%, transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(46,139,255,0.3) 0%, transparent 30%),
+    var(--cream);
+  overflow:hidden;
+}
+.cover-title {
+  font-family:'Archivo Black', sans-serif;
+  font-size:clamp(2.8rem, 8vw, 6rem);
+  text-transform:uppercase;
+  line-height:0.95;
+  letter-spacing:-2px;
+  margin-bottom:16px;
+  text-shadow:5px 5px 0 var(--yellow);
+}
+.cover-sub {
+  font-size:clamp(1rem, 2.5vw, 1.3rem);
+  font-weight:700;
+  margin-bottom:8px;
+  background:var(--black);
+  color:var(--white);
+  padding:8px 20px;
+  display:inline-block;
+  transform:rotate(-2deg);
+}
+.cover-date {
+  font-size:0.95rem;
+  font-weight:700;
+  color:var(--black);
+  margin-bottom:40px;
+  background:var(--yellow);
+  padding:6px 14px;
+  border:3px solid var(--black);
+  box-shadow:4px 4px 0 var(--black);
+}
+.cover-cta {
+  display:inline-block;
+  padding:16px 44px;
+  background:var(--pink);
+  color:var(--black);
+  font-family:'Archivo Black', sans-serif;
+  font-size:1rem;
+  text-transform:uppercase;
+  text-decoration:none;
+  border:3px solid var(--black);
+  box-shadow:6px 6px 0 var(--black);
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.cover-cta:hover {
+  transform:translate(-2px, -2px);
+  box-shadow:8px 8px 0 var(--black);
+}
+.cover-cta:active {
+  transform:translate(2px, 2px);
+  box-shadow:2px 2px 0 var(--black);
+}
+
+/* Marquee strip */
+.marquee {
+  background:var(--yellow);
+  border-top:3px solid var(--black);
+  border-bottom:3px solid var(--black);
+  padding:10px 0;
+  overflow:hidden;
+  white-space:nowrap;
+  position:relative; z-index:10;
+}
+.marquee span {
+  display:inline-block;
+  font-family:'Archivo Black', sans-serif;
+  font-size:0.9rem;
+  text-transform:uppercase;
+  animation:marquee 20s linear infinite;
+}
+@keyframes marquee {
+  0% { transform:translateX(0); }
+  100% { transform:translateX(-50%); }
+}
+
+/* Sections */
+section { padding:70px 24px; position:relative; z-index:1; }
+.section-head {
+  display:flex; align-items:center; gap:14px;
+  margin-bottom:40px;
+  justify-content:center;
+}
+.section-title {
+  font-family:'Archivo Black', sans-serif;
+  font-size:clamp(1.6rem, 4vw, 2.6rem);
+  text-transform:uppercase;
+  letter-spacing:-1px;
+  display:inline-block;
+  padding:6px 18px;
+  border:3px solid var(--black);
+  box-shadow:5px 5px 0 var(--black);
+  background:var(--pink);
+  color:var(--black);
+}
+.section-title.blue { background:var(--blue); color:var(--white); }
+.section-title.green { background:var(--green); }
+
+/* Diary pages */
+.pages-wrap {
+  max-width:780px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.page-card {
+  background:var(--white);
+  border:3px solid var(--black);
+  box-shadow:6px 6px 0 var(--black);
+  padding:28px;
+  position:relative;
+  transform:rotate(-0.5deg);
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.page-card:nth-child(even) { transform:rotate(0.5deg); }
+.page-card:hover {
+  transform:translate(-3px, -3px) rotate(0deg);
+  box-shadow:10px 10px 0 var(--black);
+}
+.page-card::before {
+  content:attr(data-num);
+  position:absolute; top:-18px; left:18px;
+  background:var(--yellow);
+  border:3px solid var(--black);
+  width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Archivo Black', sans-serif;
+  font-size:0.9rem;
+  box-shadow:3px 3px 0 var(--black);
+}
+.page-label {
+  display:inline-block;
+  font-size:0.7rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  padding:3px 10px;
+  border:2px solid var(--black);
+  margin-bottom:10px;
+  background:var(--cream);
+}
+.page-date {
+  font-size:0.8rem;
+  font-weight:700;
+  color:var(--black);
+  opacity:0.6;
+  margin-bottom:8px;
+}
+.page-title {
+  font-family:'Archivo Black', sans-serif;
+  font-size:clamp(1.2rem, 3vw, 1.6rem);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  letter-spacing:-0.5px;
+}
+.page-body { font-size:1rem; line-height:1.7; font-weight:500; }
+.page-body p { margin-bottom:10px; }
+.page-emoji {
+  position:absolute; top:20px; right:20px;
+  font-size:1.6rem;
+}
+
+/* Photos */
+.photo-grid {
+  max-width:900px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:18px;
+}
+.photo-card {
+  border:3px solid var(--black);
+  box-shadow:5px 5px 0 var(--black);
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  background:var(--white);
+}
+.photo-card img {
+  width:100%; height:200px;
+  object-fit:cover;
+  display:block;
+  transition:transform 0.3s;
+}
+.photo-card:hover img { transform:scale(1.05); }
+.photo-card .tag {
+  position:absolute; bottom:10px; left:10px;
+  background:var(--yellow);
+  border:2px solid var(--black);
+  font-size:0.7rem;
+  font-weight:700;
+  padding:2px 8px;
+  text-transform:uppercase;
+}
+
+/* Timeline */
+.timeline-wrap {
+  max-width:700px;
+  margin:0 auto;
+  position:relative;
+  padding-left:40px;
+}
+.timeline-wrap::before {
+  content:'';
+  position:absolute;
+  left:14px; top:10px; bottom:10px;
+  width:4px;
+  background:var(--black);
+  border-radius:4px;
+}
+.tl-item {
+  position:relative;
+  margin-bottom:24px;
+  background:var(--white);
+  border:3px solid var(--black);
+  padding:14px 18px;
+  box-shadow:4px 4px 0 var(--black);
+}
+.tl-item::before {
+  content:'';
+  position:absolute; left:-35px; top:16px;
+  width:16px; height:16px;
+  border-radius:50%;
+  background:var(--pink);
+  border:3px solid var(--black);
+}
+.tl-label {
+  font-family:'Archivo Black', sans-serif;
+  font-size:0.85rem;
+  text-transform:uppercase;
+  color:var(--blue);
+  margin-bottom:4px;
+}
+.tl-text { font-size:0.95rem; font-weight:500; }
+
+/* About */
+.about-box {
+  max-width:600px;
+  margin:0 auto;
+  background:var(--yellow);
+  border:3px solid var(--black);
+  box-shadow:8px 8px 0 var(--black);
+  padding:32px;
+  transform:rotate(-1deg);
+  font-size:1.05rem;
+  font-weight:500;
+  line-height:1.7;
+}
+.about-box strong { font-family:'Archivo Black', sans-serif; text-transform:uppercase; }
+
+/* Contact */
+.contact-box {
+  max-width:500px;
+  margin:0 auto;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.contact-btn {
+  display:inline-block;
+  padding:14px 30px;
+  font-family:'Archivo Black', sans-serif;
+  font-size:0.95rem;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--black);
+  border:3px solid var(--black);
+  box-shadow:5px 5px 0 var(--black);
+  transition:all 0.15s;
+}
+.contact-btn:hover { transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--black); }
+.contact-btn.whatsapp { background:var(--green); }
+.contact-btn.instagram { background:var(--pink); }
+.contact-btn.email { background:var(--blue); color:var(--white); }
+
+/* Footer */
+footer {
+  background:var(--black);
+  color:var(--white);
+  text-align:center;
+  padding:24px;
+  border-top:4px solid var(--pink);
+  font-size:0.85rem;
+  font-weight:700;
+  position:relative; z-index:1;
+}
+footer span { color:var(--yellow); }
+
+/* Modal */
+.modal-overlay {
+  position:fixed; inset:0;
+  background:rgba(17,17,17,0.7);
+  z-index:200;
+  display:flex; justify-content:center; align-items:center;
+  padding:20px;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.2s;
+}
+.modal-overlay.active { opacity:1; pointer-events:all; }
+.modal {
+  background:var(--cream);
+  border:4px solid var(--black);
+  box-shadow:10px 10px 0 var(--pink);
+  max-width:520px;
+  width:100%;
+  max-height:85vh;
+  overflow-y:auto;
+  padding:30px;
+  position:relative;
+}
+.modal-close {
+  position:absolute; top:12px; right:12px;
+  width:34px; height:34px;
+  border:3px solid var(--black);
+  background:var(--red);
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--black);
+  font-size:0.9rem;
+}
+.modal-close:hover { transform:translate(-1px,-1px); }
+.modal-title {
+  font-family:'Archivo Black', sans-serif;
+  font-size:1.5rem;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  letter-spacing:-0.5px;
+}
+.modal-meta {
+  font-size:0.8rem; font-weight:700;
+  margin-bottom:14px;
+  opacity:0.6;
+}
+.modal-body { font-size:1rem; line-height:1.8; font-weight:500; }
+.modal-tag {
+  display:inline-block;
+  padding:3px 10px;
+  border:2px solid var(--black);
+  background:var(--yellow);
+  font-size:0.7rem;
+  font-weight:700;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+/* Edit fab */
+.edit-fab {
+  position:fixed; bottom:20px; right:20px;
+  width:52px; height:52px;
+  border-radius:50%;
+  background:var(--pink);
+  color:var(--black);
+  border:3px solid var(--black);
+  font-size:1.2rem;
+  cursor:pointer;
+  box-shadow:5px 5px 0 var(--black);
+  z-index:150;
+  display:none;
+  transition:all 0.15s;
+}
+.edit-fab:hover { transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--black); }
+
+/* Edit panel */
+.edit-panel {
+  position:fixed; top:0; right:-400px;
+  width:360px; max-width:92vw;
+  height:100vh;
+  background:var(--cream);
+  z-index:300;
+  padding:24px;
+  overflow-y:auto;
+  border-left:4px solid var(--pink);
+  transition:right 0.3s ease;
+}
+.edit-panel.open { right:0; }
+.edit-panel h3 {
+  font-family:'Archivo Black', sans-serif;
+  font-size:1.1rem;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.edit-panel label {
+  display:block;
+  font-size:0.7rem; font-weight:700;
+  text-transform:uppercase;
+  margin-top:12px; margin-bottom:4px;
+}
+.edit-panel input, .edit-panel textarea {
+  width:100%;
+  padding:8px 10px;
+  border:3px solid var(--black);
+  background:var(--white);
+  font-family:'Space Grotesk', sans-serif;
+  font-size:0.9rem;
+  font-weight:500;
+}
+.edit-panel textarea { min-height:50px; resize:vertical; }
+.edit-panel .save-btn {
+  margin-top:18px;
+  width:100%;
+  padding:12px;
+  background:var(--green);
+  border:3px solid var(--black);
+  box-shadow:4px 4px 0 var(--black);
+  font-family:'Archivo Black', sans-serif;
+  font-size:0.85rem;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.edit-panel .reset-btn {
+  margin-top:8px;
+  width:100%;
+  padding:10px;
+  background:transparent;
+  border:3px solid var(--black);
+  font-family:'Archivo Black', sans-serif;
+  font-size:0.8rem;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.edit-overlay {
+  position:fixed; inset:0;
+  background:rgba(17,17,17,0.4);
+  z-index:250;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.2s;
+}
+.edit-overlay.active { opacity:1; pointer-events:all; }
+
+/* Reveal */
+.reveal {
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.5s, transform 0.5s;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* Responsive */
+@media (max-width:768px) {
+  nav { padding:10px 14px; }
+  .nav-links a { font-size:0.7rem; padding:4px 8px; }
+  section { padding:50px 16px; }
+  .page-card { padding:20px; }
+  .photo-grid { grid-template-columns:repeat(2, 1fr); gap:12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-brand">OUR DIARY</a>
+  <ul class="nav-links">
+    <li><a href="#cover">HOME</a></li>
+    <li><a href="#diary">DIARY</a></li>
+    <li><a href="#photos">PHOTOS</a></li>
+    <li><a href="#timeline">TIMELINE</a></li>
+  </ul>
+</nav>
+
+<!-- Cover -->
+<section class="cover" id="cover">
+  <div class="sticker yellow" style="top:18%; left:12%;">💘</div>
+  <div class="sticker blue" style="top:25%; right:10%; transform:rotate(8deg);">💙</div>
+  <div class="sticker pink" style="bottom:20%; left:15%;">🌸</div>
+  <div class="sticker green" style="bottom:25%; right:14%; transform:rotate(12deg);">💚</div>
+
+  <h1 class="cover-title" id="coverTitle"></h1>
+  <div class="cover-sub" id="coverNames"></div>
+  <div class="cover-date" id="coverDate"></div>
+  <a href="#diary" class="cover-cta">OPEN THE DIARY</a>
+</section>
+
+<!-- Marquee -->
+<div class="marquee">
+  <span id="marqueeText">WE LOVE EACH OTHER ✦ YOU + ME ✦ FOREVER ✦ BEST COUPLE ✦ </span>
+</div>
+
+<!-- Diary Pages -->
+<section id="diary">
+  <div class="section-head">
+    <h2 class="section-title">OUR DIARY</h2>
+  </div>
+  <div class="pages-wrap" id="pagesWrap"></div>
+</section>
+
+<!-- Photos -->
+<section id="photos">
+  <div class="section-head">
+    <h2 class="section-title blue">OUR PHOTOS</h2>
+  </div>
+  <div class="photo-grid" id="photoGrid"></div>
+</section>
+
+<!-- Timeline -->
+<section id="timeline">
+  <div class="section-head">
+    <h2 class="section-title green">OUR TIMELINE</h2>
+  </div>
+  <div class="timeline-wrap" id="timelineWrap"></div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="section-head">
+    <h2 class="section-title">ABOUT US</h2>
+  </div>
+  <div class="about-box" id="aboutBox"></div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="section-head">
+    <h2 class="section-title blue">CONTACT</h2>
+  </div>
+  <div class="contact-box">
+    <a href="#" class="contact-btn whatsapp">💬 WhatsApp</a>
+    <a href="#" class="contact-btn instagram">📸 Instagram</a>
+    <a href="#" class="contact-btn email">✉️ Email</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>OUR DIARY — built with <span>LOVE</span> &amp; <span>BRUTALISM</span></p>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- Edit -->
+<button class="edit-fab" id="editFab" title="Edit"><i>✏️</i></button>
+<div class="edit-overlay" id="editOverlay"></div>
+<div class="edit-panel" id="editPanel">
+  <h3>✏️ Edit Diary</h3>
+  <label>Cover Title</label>
+  <input type="text" id="editCoverTitle">
+  <label>Nama Pasangan</label>
+  <input type="text" id="editCoverNames">
+  <label>Tanggal</label>
+  <input type="text" id="editCoverDate">
+  <label>Marquee Text</label>
+  <input type="text" id="editMarquee">
+  <label>Diary Pages (JSON)</label>
+  <textarea id="editPages" rows="10"></textarea>
+  <label>Photos (URL array)</label>
+  <textarea id="editPhotos" rows="4"></textarea>
+  <label>Timeline (JSON)</label>
+  <textarea id="editTimeline" rows="6"></textarea>
+  <label>About Text</label>
+  <textarea id="editAbout" rows="4"></textarea>
+  <button class="save-btn" id="saveBtn">Simpan</button>
+  <button class="reset-btn" id="resetBtn">Reset Default</button>
+</div>
+
+<script>
+// ========== DEFAULT DATA ==========
+const DEFAULT_DATA = {
+  coverTitle: "US<br>DIARY",
+  coverNames: "YOU & CHANTEII",
+  coverDate: "EST. 22 JUL 2025",
+  marquee: "WE LOVE EACH OTHER ✦ YOU + ME ✦ FOREVER ✦ BEST COUPLE ✦ ",
+  pages: [
+    {
+      label: "DAY 1",
+      date: "22 JUL 2025",
+      emoji: "💘",
+      title: "First Meeting",
+      body: "<p>Pertama kali ketemu, dunia langsung berubah.</p><p>Senyum lo bikin semuanya jadi lebih berwarna.</p><p>Sejak hari itu, gue tau — ini awal dari cerita kita.</p>"
+    },
+    {
+      label: "MEMORY",
+      date: "05 AUG 2025",
+      emoji: "☕",
+      title: "Coffee Morning",
+      body: "<p>Ngopi bareng jadi ritual wajib kita.</p><p>Gak perlu tempat mewah, yang penting kita berdua.</p><p>Hal kecil yang selalu bikin gue senyum-senyum sendiri.</p>"
+    },
+    {
+      label: "SPECIAL",
+      date: "15 SEP 2025",
+      emoji: "⭐",
+      title: "Under The Stars",
+      body: "<p>Malam itu langit cerah banget, kita ngobrol sampai lupa waktu.</p><p>Bercerita tentang mimpi-mimpi yang mau kita kejar bareng.</p><p>Dan gue sadar — hidup ini lebih seru kalau ada lo di samping gue.</p>"
+    },
+    {
+      label: "US",
+      date: "01 OCT 2025",
+      emoji: "💫",
+      title: "Better Together",
+      body: "<p>Kita bukan tanpa cerita. Ada tawa, ada air mata.</p><p>Tapi setiap chapter selalu kita tulis bareng-bareng.</p><p>Love is not about finding a perfect person — it's about finding someone who makes you feel that imperfections are beautiful.</p><p>Dan lo, Chanteii, adalah orang itu.</p>"
+    },
+    {
+      label: "BIRTHDAY",
+      date: "29 JUL 2026",
+      emoji: "🎂",
+      title: "Happy Birthday!",
+      body: "<p>HBD sayang! Tahun ini semoga makin banyak kebahagiaan buat lo.</p><p>Gue selalu berdoa yang terbaik buat lo, hari ini dan selamanya.</p><p>Terima kasih udah milih gue jadi bagian dari hidup lo. ❤️</p>"
+    }
+  ],
+  photos: [
+    { src: "https://picsum.photos/seed/us1/400/400", tag: "US" },
+    { src: "https://picsum.photos/seed/us2/400/400", tag: "DATE" },
+    { src: "https://picsum.photos/seed/us3/400/400", tag: "LOVE" },
+    { src: "https://picsum.photos/seed/us4/400/400", tag: "SELFIE" },
+    { src: "https://picsum.photos/seed/us5/400/400", tag: "FUN" },
+    { src: "https://picsum.photos/seed/us6/400/400", tag: "US" }
+  ],
+  timeline: [
+    { label: "22 JUL 2025", text: "Hari pertama ketemu" },
+    { label: "05 AUG 2025", text: "Ritual ngopi bareng" },
+    { label: "15 SEP 2025", text: "Malam di bawah bintang" },
+    { label: "01 OCT 2025", text: "Sadar ini rumah" },
+    { label: "29 JUL 2026", text: "Happy Birthday!" }
+  ],
+  about: "<p><strong>US</strong> — gue & lo, dua orang yang saling milih.</p><p>Ruang kecil buat nyimpen cerita, momen, dan semua rasa yang kita bagi bareng.</p><p>Ini diary kita. Brutal, jujur, dan penuh cinta. 💥💘</p>"
+};
+
+// Load from localStorage
+function loadData() {
+  const stored = localStorage.getItem('brutal-diary-data');
+  if (stored) { try { return JSON.parse(stored); } catch(e) {} }
+  return JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+function saveData(data) {
+  localStorage.setItem('brutal-diary-data', JSON.stringify(data));
+}
+
+let DATA = loadData();
+
+// ========== RENDER ==========
+function renderCover() {
+  document.getElementById('coverTitle').innerHTML = DATA.coverTitle;
+  document.getElementById('coverNames').textContent = DATA.coverNames;
+  document.getElementById('coverDate').textContent = DATA.coverDate;
+  document.getElementById('marqueeText').textContent = DATA.marquee + DATA.marquee;
+}
+
+function renderPages() {
+  const wrap = document.getElementById('pagesWrap');
+  wrap.innerHTML = DATA.pages.map((p, i) => `
+    <article class="page-card reveal" data-num="${String(i+1).padStart(2,'0')}" onclick="openPage(${i})">
+      <span class="page-emoji">${p.emoji}</span>
+      <div class="page-label">${p.label}</div>
+      <div class="page-date">${p.date}</div>
+      <h3 class="page-title">${p.title}</h3>
+      <div class="page-body">${p.body}</div>
+    </article>
+  `).join('');
+}
+
+function renderPhotos() {
+  const grid = document.getElementById('photoGrid');
+  grid.innerHTML = DATA.photos.map(p =>
+    `<div class="photo-card reveal">
+      <img src="${p.src}" alt="${p.tag}" loading="lazy">
+      <span class="tag">${p.tag}</span>
+    </div>`
+  ).join('');
+}
+
+function renderTimeline() {
+  const wrap = document.getElementById('timelineWrap');
+  wrap.innerHTML = DATA.timeline.map((t, i) => `
+    <div class="tl-item reveal">
+      <div class="tl-label">${t.label}</div>
+      <div class="tl-text">${t.text}</div>
+    </div>
+  `).join('');
+}
+
+function renderAbout() {
+  document.getElementById('aboutBox').innerHTML = DATA.about;
+}
+
+function openPage(idx) {
+  const p = DATA.pages[idx];
+  const overlay = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
+  content.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-tag">${p.label} • ${p.date}</div>
+    <h2 class="modal-title">${p.emoji} ${p.title}</h2>
+    <div class="modal-body">${p.body}</div>
+  `;
+  overlay.classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ========== EDIT MODE ==========
+let editMode = false;
+const editFab = document.getElementById('editFab');
+const editPanel = document.getElementById('editPanel');
+const editOverlay = document.getElementById('editOverlay');
+
+editFab.addEventListener('click', () => {
+  editMode = !editMode;
+  editPanel.classList.toggle('open', editMode);
+  editOverlay.classList.toggle('active', editMode);
+  if (editMode) {
+    document.getElementById('editCoverTitle').value = DATA.coverTitle;
+    document.getElementById('editCoverNames').value = DATA.coverNames;
+    document.getElementById('editCoverDate').value = DATA.coverDate;
+    document.getElementById('editMarquee').value = DATA.marquee;
+    document.getElementById('editPages').value = JSON.stringify(DATA.pages, null, 2);
+    document.getElementById('editPhotos').value = JSON.stringify(DATA.photos, null, 2);
+    document.getElementById('editTimeline').value = JSON.stringify(DATA.timeline, null, 2);
+    document.getElementById('editAbout').value = DATA.about;
+  }
+});
+
+editOverlay.addEventListener('click', () => {
+  editMode = false;
+  editPanel.classList.remove('open');
+  editOverlay.classList.remove('active');
+});
+
+document.getElementById('saveBtn').addEventListener('click', () => {
+  try {
+    DATA.coverTitle = document.getElementById('editCoverTitle').value || DATA.coverTitle;
+    DATA.coverNames = document.getElementById('editCoverNames').value || DATA.coverNames;
+    DATA.coverDate = document.getElementById('editCoverDate').value || DATA.coverDate;
+    DATA.marquee = document.getElementById('editMarquee').value || DATA.marquee;
+    DATA.pages = JSON.parse(document.getElementById('editPages').value);
+    DATA.photos = JSON.parse(document.getElementById('editPhotos').value);
+    DATA.timeline = JSON.parse(document.getElementById('editTimeline').value);
+    DATA.about = document.getElementById('editAbout').value || DATA.about;
+    saveData(DATA);
+    renderAll();
+    editMode = false;
+    editPanel.classList.remove('open');
+    editOverlay.classList.remove('active');
+  } catch(e) {
+    alert('Format JSON tidak valid. Periksa lagi ya.');
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  localStorage.removeItem('brutal-diary-data');
+  DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  renderAll();
+  editMode = false;
+  editPanel.classList.remove('open');
+  editOverlay.classList.remove('active');
+});
+
+function renderAll() {
+  renderCover();
+  renderPages();
+  renderPhotos();
+  renderTimeline();
+  renderAbout();
+  initScrollReveal();
+}
+
+// ========== SCROLL REVEAL ==========
+function initScrollReveal() {
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+}
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+  setTimeout(() => { editFab.style.display = 'block'; }, 3000);
+});
+
+// Ctrl+E
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'e') {
+    e.preventDefault();
+    editFab.click();
+  }
+});
+
+// Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
